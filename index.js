@@ -48,7 +48,7 @@ var handlers={
     //New User
     if(Object.keys(this.attributes).length===0)
     {
-      this.response.speak("Hi there! Welcome to Word War One, the fun way to master words for competitive exams. Ask for help to know the instructions!").listen();
+      this.response.speak("<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_intro_01'/> Hi there! Welcome to Word War One, the fun way to master words for competitive exams such as GRE, GMAT and SAT. The game goes as follows. You will be given three words, and two options. You have to choose the option that is the closest to the three words. Just answer with the option number. Do you want to start the quiz?").listen("Ask for help if you need some. What do you want to do?");
       this.attributes.stats = {
         'totalQuestionsAnswered' : 0,
         'badgeLevel' : 0,
@@ -79,9 +79,6 @@ var handlers={
     var qNo = this.attributes['qCount'];
     var responseString = this.attributes.quiz['questionArray'][qNo];
     this.attributes['qCount']++;
-    //this.response.speak(responseString).listen("Just answer with the option number!");
-    //this.emit(':responseReady');
-    
   },
 
   'AnswerQuestionIntent': function(){
@@ -90,42 +87,39 @@ var handlers={
     var chosenOption = parseInt(this.event.request.intent.slots.AnswerOption.value, 10);
     var qNo = this.attributes['qCount'];
     var flag=0;
-
-    //this.response.speak(chosenOption+" "+this.attributes.quiz['answerArray'][qNo-1]);
-    //this.emit(':responseReady');
     
     //Checking User Answer
     if(chosenOption == this.attributes.quiz['answerArray'][qNo-1])
     {
-      responseString="Booyah! Correct Answer! "
+      responseString="<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_02'/>"+ " Yep, that is the correct Answer! Moving on to the next question. ";
 
       this.attributes.stats['totalQuestionsAnswered']++;
 
       //Checking Badge Increment
-      if(this.attributes.stats['totalQuestionsAnswered']==50)
+      if(this.attributes.stats['totalQuestionsAnswered']==10)
       {
-        responseString += "Congratulations! You have earned the Master badge! Play on to acquire more badges! ";
+        responseString += "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_03'/> Congratulations! You have earned the Master badge! Play on to acquire more badges! ";
         this.attributes.stats['badgeLevel']++;
         this.attributes.stats['apiLevel']++;
         flag=1;
       }
-      else if(this.attributes.stats['totalQuestionsAnswered']==75)
+      else if(this.attributes.stats['totalQuestionsAnswered']==15)
       {
-        responseString += "Guess who just earned the Grandmaster badge! Keep it up, and keep on playing for more badges! ";
+        responseString += "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_03'/> Guess who just earned the Grandmaster badge! Keep it up, and keep on playing for more badges! ";
         this.attributes.stats['badgeLevel']++;
         this.attributes.stats['apiLevel']++;
         flag=1;
       }
-      else if(this.attributes.stats['totalQuestionsAnswered']==100)
+      else if(this.attributes.stats['totalQuestionsAnswered']==20)
       {
-        responseString += "Congratulations on completing the game! All hail the Legendary Grandmaster! You can still continue playing! ";
+        responseString += "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_03'/> Congratulations on completing the game! All hail the Legendary Grandmaster! You can still continue playing! ";
         this.attributes.stats['badgeLevel']++;
         this.attributes.stats['apiLevel']++;
         flag=1;
       }
     }
     else
-      responseString ="Bummer! Wrong Answer! The correct answer is option number " + this.attributes.quiz['answerArray'][qNo-1]+ ". ";
+      responseString ="<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_negative_response_02'/> Bummer! Wrong Answer! The correct answer is option number " + this.attributes.quiz['answerArray'][qNo-1]+ ". Moving on to the next question. ";
     
 
     //Crafting the next set of question if quiz content exhausted or badge increment
@@ -153,32 +147,60 @@ var handlers={
   },
 
   'StatsIntent' : function(){
-    var responseString = "You have answered " + this.attributes.stats['totalQuestionsAnswered'] +" questions and are currently at the " + badges[this.attributes.stats['badgeLevel']] + " badge level!";
-    this.response.speak(responseString).listen();
+    var qa= this.attributes.stats['totalQuestionsAnswered'];
+    var reqd_next = 0;
+    var responseString;
+    if(qa<100)
+    {
+      if(qa < 50)
+        reqd_next = 50 - qa;
+      else if(qa < 75)
+        reqd_next = 75 - qa;
+      else if(qa < 100)
+        reqd_next = 100 - qa;
+      
+      responseString = "You have answered " + qa +" questions and are currently at the " + badges[this.attributes.stats['badgeLevel']] + " badge level! You need to answer " + reqd_next + " more questions to reach the next badge." ;
+    }
+    else
+      responseString = "You have answered " + qa +" questions and are currently at the " + badges[this.attributes.stats['badgeLevel']] + " badge level! You have reached the highest badge possible!" ;
+    responseString += " Do you want to start the quiz?";
+    this.response.speak(responseString).listen("Do you want to start the quiz?");
     this.emit(':responseReady');
   },
 
   'AMAZON.FallbackIntent' : function()
   {
-    this.response.speak("Lets play soon!");
+    this.response.speak("Sorry, I didn't get that!").listen("Do you want to start the quiz?");
     this.emit(':responseReady');
   },
 
   'AMAZON.StopIntent' : function()
   {
-    this.response.speak("Lets play soon!");
+    this.response.speak("Lets play soon! <audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_outro_01'/>");
     this.emit(':responseReady');
   },
 
   'AMAZON.CancelIntent' : function()
   {
-    this.response.speak("Lets play soon!");
+    this.response.speak("Lets play soon! <audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_outro_01'/>");
     this.emit(':responseReady');
   },
 
   'AMAZON.HelpIntent' : function()
   {
-    this.response.speak("Lets play soon!");
+    this.response.speak("Word war one is intended to help you in mastering words for GRE, GMAT and SAT in a fun and interactive way. You will be given three words, and two options. You have to choose the option that is the closest to the three words. Just answer with the option number. Answer questions to receive badges, and compete with your friends to win the title of Legendary Grandmaster! You can also know about your performance by asking me for stats. Do you want to start the quiz now?").listen("Do you want to start the quiz?");
+    this.emit(':responseReady');
+  },
+
+  'Unhandled' : function(){
+    this.response.speak("Pardon me for this technical snag! Please try after some time! <audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_outro_01'/>");
+    this.emit(':responseReady');
+  },
+
+  'RepeatIntent' : function(){
+    var qNo = this.attributes['qCount'];
+    var responseString = "Listen closely. "+ this.attributes.quiz['questionArray'][qNo-1];
+    this.response.speak(responseString).listen("Just answer with the option number!");
     this.emit(':responseReady');
   }
 }
