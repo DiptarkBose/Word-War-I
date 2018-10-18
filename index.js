@@ -96,21 +96,21 @@ var handlers={
       this.attributes.stats['totalQuestionsAnswered']++;
 
       //Checking Badge Increment
-      if(this.attributes.stats['totalQuestionsAnswered']==10)
+      if(this.attributes.stats['totalQuestionsAnswered']==50)
       {
         responseString += "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_03'/> Congratulations! You have earned the Master badge! Play on to acquire more badges! ";
         this.attributes.stats['badgeLevel']++;
         this.attributes.stats['apiLevel']++;
         flag=1;
       }
-      else if(this.attributes.stats['totalQuestionsAnswered']==15)
+      else if(this.attributes.stats['totalQuestionsAnswered']==75)
       {
         responseString += "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_03'/> Guess who just earned the Grandmaster badge! Keep it up, and keep on playing for more badges! ";
         this.attributes.stats['badgeLevel']++;
         this.attributes.stats['apiLevel']++;
         flag=1;
       }
-      else if(this.attributes.stats['totalQuestionsAnswered']==20)
+      else if(this.attributes.stats['totalQuestionsAnswered']==100)
       {
         responseString += "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_03'/> Congratulations on completing the game! All hail the Legendary Grandmaster! You can still continue playing! ";
         this.attributes.stats['badgeLevel']++;
