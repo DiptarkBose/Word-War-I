@@ -13,7 +13,7 @@ function questionQuery(_this, stringMessage) {
 
   request({
     headers: {
-      "X-Mashape-Key": "YQfmpcMYUemshkP7Hbtdd4VRWAXmp10LJ99jsnDAxk3RFYbhYZ",
+      "X-Mashape-Key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
       "Accept": "application/json"
     },
     url: url,
@@ -207,7 +207,7 @@ var handlers={
 
 exports.handler = function(event, context, callback){
   var alexa = Alexa.handler(event, context);
-  alexa.appId = "amzn1.ask.skill.6fc61557-fc3c-4a2d-97fa-611f1b472987";
+  alexa.appId = "amzn1.ask.skill.xxxxxx-xxxx-xxx-xxxx-xxxxxxxxxxx";
   alexa.registerHandlers(handlers);
   alexa.dynamoDBTableName = 'Stats';
   alexa.execute();
