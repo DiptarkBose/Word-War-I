@@ -6,7 +6,7 @@ const unirest = require('unirest');
 var url="https://twinword-word-association-quiz.p.mashape.com/type1/?area=gre&level=7";
 var str="";
 unirest.get(url)
-	.header("X-Mashape-Key", "YQfmpcMYUemshkP7Hbtdd4VRWAXmp10LJ99jsnDAxk3RFYbhYZ")
+	.header("X-Mashape-Key", "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
   	.header("Accept", "application/json")
   	.end(function (result) {
   	str="HAHAHA";
@@ -18,7 +18,7 @@ var request= require('request');
 var url="https://twinword-word-association-quiz.p.mashape.com/type1/?area=gre&level=7"
 request({
     headers: {
-      "X-Mashape-Key": "YQfmpcMYUemshkP7Hbtdd4VRWAXmp10LJ99jsnDAxk3RFYbhYZ",
+      "X-Mashape-Key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
       "Accept": "application/json"
     },
     url: url,
